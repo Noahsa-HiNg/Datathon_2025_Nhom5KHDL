@@ -1,147 +1,66 @@
-# 📦 Datathon 2026 — Submission Repository  
-## Team: KHDL Nhóm 5
+# Datathon 2026 Round 1
 
----
+Repository này chứa toàn bộ notebook phân tích, notebook mô hình và dữ liệu dùng cho bài toán Datathon 2026 Round 1 của nhóm KHDL Nhóm 5.
 
-## 1. Kaggle Submission
+## Nội dung chính
 
-- File nộp: `submission.csv`
-- Yêu cầu:
-  - Đúng số dòng
-  - Đúng thứ tự như `sample_submission.csv`
-  - Không có giá trị thiếu (NaN)
+- EDA và dashboard trực quan nằm trong [02_eda_dashboard_final.ipynb](02_eda_dashboard_final.ipynb)
+- Phân tích dữ liệu chi tiết nằm trong [data_eda.ipynb](data_eda.ipynb)
+- Xây dựng mô hình dự báo nằm trong [Model.ipynb](Model.ipynb)
+- Notebook thử nghiệm/triển khai từng phần nằm trong [part1.ipynb](part1.ipynb)
+- Notebook baseline gốc của cuộc thi nằm trong [datathon-2026-round-1/baseline.ipynb](datathon-2026-round-1/baseline.ipynb)
 
----
-
-## 2. Báo cáo (PDF)
-
-- Sử dụng template **LaTeX NeurIPS**
-- Tối đa **4 trang** không tính references và appendix
-
-### Nội dung báo cáo bao gồm:
-
-- Trực quan hoá và phân tích dữ liệu (**Phần 2 — EDA**)
-- Pipeline mô hình và phương pháp dự báo (**Phần 3 — Forecasting**)
-- Kết quả thực nghiệm và phương pháp đánh giá
-- Link GitHub repository
-
----
-
-## 3. Repository Structure
-
-Repository bao gồm toàn bộ code, notebook phân tích, notebook mô hình và file submission.
+## Cấu trúc thư mục
 
 ```text
 .
-├── data/
-├── notebooks/
-│   ├── 01_mcq_answers.ipynb
-│   ├── 02_eda_dashboard_final.ipynb
-│   └── 03_forecasting_model.ipynb
-├── outputs/
-│   └── figures/
-├── submission.csv
-└── README.md
+├── 02_eda_dashboard_final.ipynb
+├── data_eda.ipynb
+├── Model.ipynb
+├── part1.ipynb
+├── README.md
+├── datathon-2026-round-1/
+│   ├── baseline.ipynb
+│   ├── customers.csv
+│   ├── geography.csv
+│   ├── inventory.csv
+│   ├── order_items.csv
+│   ├── orders.csv
+│   ├── payments.csv
+│   ├── products.csv
+│   ├── promotions.csv
+│   ├── returns.csv
+│   ├── reviews.csv
+│   ├── sales.csv
+│   ├── sample_submission.csv
+│   ├── shipments.csv
+│   └── web_traffic.csv
+└── submission/
+    └── submission.csv
 ```
 
----
+## Dữ liệu
 
-## 4. Reproducibility
+Bộ dữ liệu cuộc thi được lưu trong thư mục [datathon-2026-round-1](datathon-2026-round-1) và gồm nhiều bảng liên kết theo nghiệp vụ bán hàng, khách hàng, tồn kho, vận chuyển, đánh giá và lưu lượng web.
 
-### Cài đặt môi trường
+Các file quan trọng nhất khi tạo kết quả nộp là:
+
+- [datathon-2026-round-1/sample_submission.csv](datathon-2026-round-1/sample_submission.csv)
+- [submission/submission.csv](submission/submission.csv)
+
+## Cách chạy lại
+
+1. Mở notebook theo đúng thứ tự cần phân tích hoặc mô hình hoá.
+2. Chạy lại các cell với cùng môi trường Python đang dùng trong dự án.
+3. Sau khi sinh dự đoán, xuất file nộp vào [submission/submission.csv](submission/submission.csv).
+
+Nếu cần cài nhanh các thư viện cơ bản cho notebook, có thể dùng:
 
 ```bash
-pip install pandas numpy scikit-learn matplotlib seaborn
+pip install pandas numpy scikit-learn matplotlib seaborn plotly
 ```
 
-### Chạy lại kết quả
+## Ghi chú
 
-Chạy các notebook theo thứ tự:
-
-```text
-1. notebooks/02_eda_dashboard_final.ipynb
-2. notebooks/03_forecasting_model.ipynb
-```
-
----
-
-## 5. Methodology
-
-### 5.1. Exploratory Data Analysis — Phần 2
-
-Phân tích EDA được thực hiện theo các mảng kinh doanh chính:
-
-- Revenue & Seasonality
-- Customer & Retention
-- Product & Profitability
-- Promotion Effectiveness
-- Returns & Customer Experience
-- Inventory & Operations
-- Web Traffic & Conversion
-
-Khung phân tích sử dụng trong dashboard:
-
-```text
-Descriptive → Diagnostic → Predictive → Prescriptive
-```
-
-Mục tiêu của phần EDA là không chỉ mô tả dữ liệu, mà còn tìm ra nguyên nhân, cảnh báo rủi ro và đề xuất hành động kinh doanh có thể áp dụng.
-
----
-
-### 5.2. Forecasting — Phần 3
-
-- Mục tiêu: dự báo **Revenue theo ngày**
-- Dữ liệu chính: `sales.csv`
-
-#### Validation Strategy
-
-Do dữ liệu có sự thay đổi theo thời gian, nhóm sử dụng **time-based hold-out validation**:
-
-```text
-Train: 2012 – 2021
-Validation: 2022
-```
-
-Nhóm không sử dụng cross-validation trên toàn bộ dữ liệu để tránh sai lệch do khác biệt phân phối giữa các giai đoạn.
-
-#### Mô hình sử dụng
-
-- Seasonal Naive
-- Rolling Average
-- Gradient Boosting
-- Final Ensemble
-
-Cách tiếp cận kết hợp:
-
-- Phương pháp thống kê để nắm bắt trend và seasonality
-- Machine Learning để học các pattern phi tuyến
-- Ensemble để cải thiện độ ổn định và giảm sai số dự báo
-
----
-
-## 6. Reproducibility Notes
-
-- Không sử dụng dữ liệu ngoài
-- Code có thể chạy lại toàn bộ
-- Có sử dụng random seed khi cần thiết
-- Các file notebook, figures và `submission.csv` được lưu trong repository
-
----
-
-## 7. Evaluation Notes
-
-- Kaggle được sử dụng để đánh giá trên tập test ẩn
-- Các chỉ số MAE, RMSE và R² được tính trên tập validation năm 2022
-- File `submission.csv` giữ đúng cấu trúc và thứ tự dòng của `sample_submission.csv`
-
----
-
-## 8. Links
-
-- Kaggle Submission: https://drive.google.com/file/d/1CFD-h6ZUv5yienL1u6pXzC6mImaV3eq2/view?usp=drive_link
-- GitHub Repository: https://github.com/Noahsa-HiNg/Datathon_2025_Nhom5KHDL
-
----
-
-# Completed
+- Không nên phụ thuộc vào đường dẫn cũ như `data/`, `notebooks/` hay `outputs/` vì chúng không còn khớp với workspace hiện tại.
+- File [datathon-2026-round-1/sample_submission.csv](datathon-2026-round-1/sample_submission.csv) nên được dùng làm mẫu để đảm bảo đúng số dòng và đúng thứ tự khi tạo submission.
